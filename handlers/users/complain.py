@@ -2,6 +2,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
 from data.config import ADMINS
+from handlers.users.katalog import katalog_1
 from keyboards.default.menu import menu
 
 from loader import dp, bot, db
@@ -28,7 +29,7 @@ async def super(message: types.Message):
 #
 #
 @dp.message_handler(Command(commands="tuzuvchi", prefixes="!"))
-async def super(message: types.Message):
+async def creator(message: types.Message):
     await message.answer(text="Bot tuzuvchi: Shuhrat Isroil o'g'li  ⏩ @ShuhratX95")
 
 
@@ -84,29 +85,34 @@ async def answer_region(call: types.CallbackQuery, state: FSMContext):
 @dp.message_handler(state=MarketData.region)
 async def answer_region(message: types.Message, state: FSMContext):
     txt = message.text
-    if txt == "Katalog" or txt == "Shikoyat" or txt == "Supervisor bn bog'lanish":
+    if txt == "Taklif":
         await state.finish()
-        await message.answer("Menyudan tanlang", reply_markup=menu)
+        await offer(message)
+        # await message.answer("Menyudan tanlang", reply_markup=menu)
+    elif txt == "Supervisor bn bog'lanish":
+        await state.finish()
+        await super(message)
+    elif txt == "Katalog":
+        await state.finish()
+        await katalog_1(message)
     else:
         await message.answer("Menyudan tanlang", reply_markup=menu)
 
-#     region = message.text
-#
-#     await state.update_data(
-#         {"region": region}
-#     )
-#
-#     await message.answer("Manzilingizni kiriting")
-#
-#     # await PersonalData.email.set()
-#     await MarketData.next()
+
 
 @dp.message_handler(state=MarketData.address)
 async def answer_address(message: types.Message, state: FSMContext):
     address = message.text
-    if address == "Katalog" or address == "Shikoyat" or address == "Supervisor bn bog'lanish":
+    if address == "Taklif":
         await state.finish()
-        await message.answer("Menyudan tanlang", reply_markup=menu)
+        await offer(message)
+        # await message.answer("Menyudan tanlang", reply_markup=menu)
+    elif address == "Supervisor bn bog'lanish":
+        await state.finish()
+        await super(message)
+    elif address == "Katalog":
+        await state.finish()
+        await katalog_1(message)
     else:
         await state.update_data(
             {"address": address}
@@ -120,9 +126,16 @@ async def answer_address(message: types.Message, state: FSMContext):
 @dp.message_handler(state=MarketData.compl)
 async def answer_compl(message: types.Message, state: FSMContext):
     compl = message.text
-    if compl == "Katalog" or compl == "Shikoyat" or compl == "Supervisor bn bog'lanish":
+    if compl == "Taklif":
         await state.finish()
-        await message.answer("Menyudan tanlang", reply_markup=menu)
+        await offer(message)
+        # await message.answer("Menyudan tanlang", reply_markup=menu)
+    elif compl == "Supervisor bn bog'lanish":
+        await state.finish()
+        await super(message)
+    elif compl == "Katalog":
+        await state.finish()
+        await katalog_1(message)
     else:
         await state.update_data(
             {"compl": compl}
@@ -136,9 +149,16 @@ async def answer_compl(message: types.Message, state: FSMContext):
 @dp.message_handler(state=MarketData.phone)
 async def answer_phone(message: types.Message, state: FSMContext):
     phone = message.text
-    if phone == "Katalog" or phone == "Shikoyat" or phone == "Supervisor bn bog'lanish":
+    if phone == "Taklif":
         await state.finish()
-        await message.answer("Menyudan tanlang", reply_markup=menu)
+        await offer(message)
+        # await message.answer("Menyudan tanlang", reply_markup=menu)
+    elif phone == "Supervisor bn bog'lanish":
+        await state.finish()
+        await super(message)
+    elif phone == "Katalog":
+        await state.finish()
+        await katalog_1(message)
     else:
         if len(phone) != 13:
             await message.answer("Telefon raqamini +998********* formatida yuboring")
@@ -155,10 +175,17 @@ async def answer_phone(message: types.Message, state: FSMContext):
 
 @dp.message_handler(state=MarketData.location)
 async def answer_location(message: types.Message, state: FSMContext):
-    phone = message.text
-    if phone == "Katalog" or phone == "Shikoyat" or phone == "Supervisor bn bog'lanish":
+    location = message.text
+    if location == "Taklif":
         await state.finish()
-        await message.answer("Menyudan tanlang", reply_markup=menu)
+        await offer(message)
+        # await message.answer("Menyudan tanlang", reply_markup=menu)
+    elif location == "Supervisor bn bog'lanish":
+        await state.finish()
+        await super(message)
+    elif location == "Katalog":
+        await state.finish()
+        await katalog_1(message)
     else:
         await message.answer("Menyudan tanlang", reply_markup=menu)
 

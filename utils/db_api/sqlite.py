@@ -48,7 +48,6 @@ class Database:
                 language varchar(3)
                 );
     """
-
         self.execute(sql, commit=True)
 
 
