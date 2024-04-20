@@ -4,7 +4,7 @@ from aiogram.dispatcher.filters import Command
 from data.config import ADMINS
 from keyboards.default.menu import menu
 
-from loader import dp, bot
+from loader import dp, bot, db
 from states.market_data import MarketData
 from states.offer import Offer
 from keyboards.inline.regions import REGIONS
@@ -30,6 +30,20 @@ async def super(message: types.Message):
 @dp.message_handler(Command(commands="tuzuvchi", prefixes="!"))
 async def super(message: types.Message):
     await message.answer(text="Bot tuzuvchi: Shuhrat Isroil o'g'li  ⏩ @ShuhratX95")
+
+
+@dp.message_handler(Command(commands="statistika", prefixes="!"))
+async def stat_admin(message: types.Message):
+    id = str(message.from_user.id)
+    msg = ''
+    for res in db.select_all_info():
+        msg += f"{res[0]} {res[1]}\n"
+    if id in list(ADMINS):
+        # print("admin")
+        await message.answer(text=msg)
+    else:
+        print("no")
+        await message.answer(text=message.text)
 
 
 @dp.message_handler(text_contains="Taklif")
@@ -114,7 +128,7 @@ async def answer_compl(message: types.Message, state: FSMContext):
             {"compl": compl}
         )
 
-        await message.answer("Telefon raqamingizni yozing")
+        await message.answer("Telefon raqamini +998********* formatida yuboring")
 
         await MarketData.next()
 
@@ -126,14 +140,17 @@ async def answer_phone(message: types.Message, state: FSMContext):
         await state.finish()
         await message.answer("Menyudan tanlang", reply_markup=menu)
     else:
+        if len(phone) != 13:
+            await message.answer("Telefon raqamini +998********* formatida yuboring")
+            await MarketData.phone.set()
+        else:
+            await state.update_data(
+                {"phone": phone}
+            )
 
-        await state.update_data(
-            {"phone": phone}
-        )
+            await message.answer("Lokatsiya yuboring")
 
-        await message.answer("Lokatsiyani yuboring")
-
-        await MarketData.next()
+            await MarketData.next()
 
 
 @dp.message_handler(state=MarketData.location)
@@ -159,6 +176,7 @@ async def answer_location(message: types.Message, state: FSMContext):
     address = data.get("address")
     compl = data.get("compl")
     phone = data.get("phone")
+    db.add_info(region=region, phone=phone)
     msg = "Ma`lumotlar qabul qilindi.\nTez orada siz bilan bog'lanishadi 😊"
 
     await message.answer(msg)
