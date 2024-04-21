@@ -23,11 +23,6 @@ async def super(message: types.Message):
     await message.answer(text="Supervisor raqami: +998900944994")
 
 
-# @dp.message_handler(Command(commands="Muslima", prefixes="!"))
-# async def super(message: types.Message):
-#     await message.answer(text="Muslima tentak-ku. Bechora Shuhratni sho'ri🤣")
-#
-#
 @dp.message_handler(Command(commands="tuzuvchi", prefixes="!"))
 async def creator(message: types.Message):
     await message.answer(text="Bot tuzuvchi: Shuhrat Isroil o'g'li  ⏩ @ShuhratX95")
@@ -56,9 +51,16 @@ async def offer(message: types.Message):
 @dp.message_handler(state=Offer.offer)
 async def offer_send(message: types.Message, state: FSMContext):
     txt = message.text
-    if txt == "Katalog" or txt == "Shikoyat" or txt == "Supervisor bn bog'lanish":
+    if txt == "Shikoyat":
         await state.finish()
-        await message.answer("Menyudan tanlang", reply_markup=menu)
+        await enter_test(message)
+        # await message.answer("Menyudan tanlang", reply_markup=menu)
+    elif txt == "Supervisor bn bog'lanish":
+        await state.finish()
+        await super(message)
+    elif txt == "Katalog":
+        await state.finish()
+        await katalog_1(message)
     else:
         offer = f"Mijozdan taklif: \n{message.text}"
         await message.answer("Taklifingiz yetkazildi!")

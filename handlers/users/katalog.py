@@ -14,7 +14,7 @@ async def katalog_2(call: types.CallbackQuery):
 
 
 @dp.callback_query_handler(text_contains='prev')
-async def katalog_1(call: types.CallbackQuery):
+async def katalog_prev(call: types.CallbackQuery):
     await call.message.edit_reply_markup(KATALOG_1)
 
 
