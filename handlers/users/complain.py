@@ -20,7 +20,7 @@ async def enter_test(message: types.Message):
 
 @dp.message_handler(text_contains="Supervisor")
 async def super(message: types.Message):
-    await message.answer(text="Supervisor raqami: +998900944994")
+    await message.answer(text="Supervisor raqami: +998943605234")
 
 
 @dp.message_handler(Command(commands="tuzuvchi", prefixes="!"))
